@@ -1,13 +1,25 @@
+// Set the 'NODE_ENV' variable
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-const configureExpress = require('./config/express');
+// Load the module dependencies
 const configureMongoose = require('./config/mongoose');
+const configureExpress = require('./config/express');
+const configurePassport = require('./config/passport');
 
-const db = configureMongoose();  // must be loaded before any other configuration, any module loaded after this 
-                                // will be able to use the model without loading it by itself.
-const app = configureExpress(); 
+// Create a new Mongoose connection instance
+const db = configureMongoose();
 
-app.listen(3000); 
-module.exports = app;
+// Create a new Express application instance
+const app = configureExpress();
 
+// Configure the Passport middleware
+const passport = configurePassport();
+
+// Use the Express application instance to listen to the '3000' port
+app.listen(3000);
+
+// Log the server status to the console
 console.log('Server running at http://localhost:3000/');
+
+// Use the module.exports property to expose our Express application instance for external usage
+module.exports = app;
