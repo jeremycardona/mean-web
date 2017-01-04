@@ -2,6 +2,7 @@
 module.exports = {
 	db: 'mongodb://localhost/mean-book',
 	sessionSecret: 'testSessionSecret',
+	viewEngine: 'ejs',
 	facebook: {
 		clientID: '12086779958849201208677995884920',
 		clientSecret: 'bfcda18589ad3f95f7b4e91888675c28',

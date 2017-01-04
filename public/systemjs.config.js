@@ -1,14 +1,14 @@
 (function(global) {
   var packages = {
     app: {
-      main: './bootstrap.js',
-      defaultExtension: 'js'
-    }
+        main: './bootstrap.js',
+        defaultExtension: 'js'
+      }
   };
 
   var map = {
     '@angular': 'lib/@angular',
-    'rxjs': 'lib/rxjs'
+      'rxjs': 'lib/rxjs'
   };
 
   var ngPackageNames = [
@@ -22,8 +22,9 @@
     'platform-browser-dynamic',
   ];
 
-  ngPackageNames.forEach(function(pkgName) {	
-    packages['@angular/' + pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
+  ngPackageNames.forEach(function(pkgName) {
+    packages['@angular/' + pkgName] = { main: '/bundles/' +pkgName + '.umd.js', defaultExtension: 'js' };
+    map['@angular/' + pkgName + '/testing'] = 'lib/@angular/' + pkgName + '/bundles/' + pkgName + '-testing.umd.js';
   });
 
   System.config({
