@@ -5,19 +5,19 @@ import { ArticlesService } from '../articles.service';
 import { ListComponent } from './list.component';
 
 class MockArticlesService {
-  articles = [{
-    _id: '12345678',
-    title: 'An Article about MEAN',
-    content: 'MEAN rocks!',
-    created: new Date(),
-    creator: {
-      fullName: 'John Doe'
-    }
-  }];
+	articles = [{
+		_id: '12345678',
+		title: 'An Article about MEAN',
+		content: 'MEAN rocks!',
+		created: new Date(),
+		creator: {
+			fullName: 'John Doe'
+		}
+	}];
 
-  public list() {
-    return Observable.of(this.articles);
-  }
+	public list() {
+		return Observable.of(this.articles);
+	}
 };
 
 @Directive({
@@ -36,40 +36,39 @@ export class RouterLinkStubDirective {
 }
 
 describe('List component tests', () => {
-  let componentFixture: ComponentFixture<ListComponent>;
+	let componentFixture: ComponentFixture<ListComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ListComponent, RouterLinkStubDirective ],
-      providers:    [ {provide: ArticlesService, useClass: MockArticlesService } ]
-    }).compileComponents();
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+			declarations: [ ListComponent, RouterLinkStubDirective ],
+			providers:    [ {provide: ArticlesService, useClass: MockArticlesService } ]
+		}).compileComponents();
+	}));  
+
+
+  beforeEach(fakeAsync(() => {
+    componentFixture = TestBed.createComponent(ListComponent);
   }));
 
+	it('Should render list', () => {
+		componentFixture.detectChanges();
 
-    beforeEach(fakeAsync(() => {
-        componentFixture = TestBed.createComponent(ListComponent);
-    }));
+		let mockArticleService = new MockArticlesService();
 
-  it('Should render list', () => {
-    componentFixture.detectChanges();
+		let listComponentElement = componentFixture.nativeElement;
 
-    const mockArticleService = new MockArticlesService();
-    const listComponentElement = componentFixture.nativeElement;
+		let articleElements = listComponentElement.querySelectorAll('li');
+		let articleElement = articleElements[0];
+		let articleTitleElement = articleElement.querySelector('a');
+		let articleContentElement = articleElement.querySelector('p');
 
-    const articleElements = listComponentElement.querySelectorAll('li');
-    const articleElement = articleElements[0];
-    const articleTitleElement = articleElement.querySelector('a');
-    const articleContentElement = articleElement.querySelector('p');
+		let mockArticleList = mockArticleService.articles;
+		let mockArticle = mockArticleList[0];
+		let mockArticleTitle = mockArticle.title;
+		let mockArticleContent = mockArticle.content;
 
-    const mockArticleList = mockArticleService.articles;
-    const mockArticle = mockArticleList[0];
-    const mockArticleTitle = mockArticle.title;
-    const mockArticleContent = mockArticle.content;
-
-    expect(articleElements.length).toBe(mockArticleList.length);
-
-    expect(articleTitleElement.innerHTML).toBe(mockArticleTitle);
-
-    expect(articleContentElement.innerHTML).toBe(mockArticleContent);
-  });
+		expect(articleElements.length).toBe(mockArticleList.length);
+		expect(articleTitleElement.innerHTML).toBe(mockArticleTitle);
+		expect(articleContentElement.innerHTML).toBe(mockArticleContent);
+	});
 });

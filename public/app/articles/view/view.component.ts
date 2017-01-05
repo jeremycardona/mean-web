@@ -8,41 +8,41 @@ import { ArticlesService } from '../articles.service';
   templateUrl: 'app/articles/view/view.template.html',
 })
 export class ViewComponent {
-  user: any;
-  article: any;
-  paramsObserver: any;
-  errorMessage: string;
-  allowEdit: boolean = false;
+	user: any;
+	article: any;
+	routingObserver: any;
+	errorMessage: string;
+	allowEdit: boolean = false;
 
-  constructor(private _router:Router, 
-        private _route: ActivatedRoute, 
-        private _authenticationService: AuthenticationService, 
-        private _articlesService: ArticlesService) {}
+	constructor(private _router:Router, 
+				private _route: ActivatedRoute, 
+				private _authenticationService: AuthenticationService, 
+				private _articlesService: ArticlesService) {}
 
-  ngOnInit() {
-    this.user = this._authenticationService.user
+	ngOnInit() {
+		this.user = this._authenticationService.user
 
-    this.paramsObserver = this._route.params.subscribe(params => {
-      let articleId = params['articleId'];
+		this.routingObserver = this._route.params.subscribe(params => {
+			let articleId = params['articleId'];
 
-      this._articlesService
-        .read(articleId)
-        .subscribe(
-          article => {
-            this.article = article;
-            this.allowEdit = (this.user && this.user._id === this.article.creator._id);
-           },
-          error => this._router.navigate(['/articles'])
-        );
-    });
-  }
+			this._articlesService
+				.read(articleId)
+				.subscribe(
+					article => {
+						this.article = article;
+						this.allowEdit = (this.user && this.user._id === this.article.creator._id);
+		 			},
+					error => this._router.navigate(['/articles'])
+				);
+		});
+	}
 
-  ngOnDestroy() {
-    this.paramsObserver.unsubscribe();
-  }
+	ngOnDestroy() {
+		this.routingObserver.unsubscribe();
+	}
 
-  delete() {
-    this._articlesService.delete(this.article._id).subscribe(deletedArticle => this._router.navigate(['/articles']),
-                                 error => this.errorMessage = error);
-  }
+	delete() {
+		this._articlesService.delete(this.article._id).subscribe(deletedArticle => this._router.navigate(['/articles']),
+																 error => this.errorMessage = error);
+	}
 }

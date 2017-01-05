@@ -5,7 +5,6 @@ import { Location } from '@angular/common';
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 
-let router: RouterTestingModule ;
 let location: SpyLocation;
 
 describe('AppComponent Routing', () => {
@@ -17,7 +16,7 @@ describe('AppComponent Routing', () => {
 
   beforeEach(fakeAsync(() => {
     const injector = TestBed.createComponent(AppComponent).debugElement.injector;
-    location = injector.get(Location); 
+    location = injector.get(Location);
   }));
 
   it('Should navigate to home', fakeAsync(() => {

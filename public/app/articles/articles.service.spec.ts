@@ -15,7 +15,7 @@ const mockArticle = {
 };
 
 describe('Articles service tests', () => {
-  beforeEach(async(() => {
+  beforeEach( async(() => {
     TestBed.configureTestingModule({
       imports: [ HttpModule ],
       providers: [
@@ -35,7 +35,7 @@ describe('Articles service tests', () => {
     const options = new ResponseOptions({ status: 200, body: mockArticle });
     const response = new Response(options);
 
-    backend.connections.subscribe((connection: MockConnection) => connection.mockRespond(response));
+    backend.connections.subscribe((c: MockConnection) => c.mockRespond(response));
 
     service.create(mockArticle).do(article => {
       expect(article).toBeDefined();
